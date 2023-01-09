@@ -1,0 +1,102 @@
+
+
+import java.util.Scanner;
+
+public class HighPeak {
+	//A method to calculate the earnings and job left for others which return an array of two integers
+	public static int[] job1(int arr[][],int job)
+	{
+		int max=arr[0][2];// initially max will be the first earnings we enter
+		int sum=0;// To calculate the total earnings overall 
+		int maxi=0;// to know the row index of the maximum earning
+		for (int i = 0; i < arr.length; i++) 
+		{
+			for (int j = 0; j < arr.length; j++) 
+			{
+		 // if the value in 3rd column which contains earning exceed the initial max value the value will get updated
+				if(arr[i][2]>=max)  
+					         
+				{
+					max=arr[i][2];
+					maxi=i; // to find the index of the maximum earnings row
+				}
+				
+			}
+			sum=sum+arr[i][2];//  sum of total earnings
+		}
+		// the condition is lokesh can work only one job at a given duration
+		// so other than the stipulated time if any other time is available he can work
+		int ms=arr[maxi][0];//the starting time of maxmimum earning
+		int me=arr[maxi][1];// the ending time of maximum earning
+		int max1=0;// the variable to find the other possible earning other than max
+		int k=0;// to count the  other job
+		 for (int i = 0; i < arr.length; i++)
+		 {
+			 for (int j = 0; j < arr.length; j++)
+			 {
+				 if(i!=maxi)// the loop should not enter the max earning which we have already found
+				 {
+				//the starting time and ending time  should not be in between maximum start  time earning and end time 
+					 
+					 if(((arr[i][0])<ms && (arr[i][1]<ms))||((arr[i][0])>me && (arr[i][1]<me)))
+					 {
+						max1=max1+arr[i][2];
+						ms=arr[i][0];// the start time will get updated
+						me=arr[i][1];// the end time will get updated
+						k++;// to count the other task
+					 }
+				 }
+				
+			 }
+			
+		}
+		max=max+max1;
+		// the final max earning of lokesh will be  
+		
+		
+		
+		int earnleft=sum-max;// earnleft for others 
+		 int task=job-1-k;// 1 is the maximum earning job and k is the other job he can do
+		 
+		 int result[]=new int[2];// result is stored in integer array of size 2
+		
+		 result[0]=task;
+		 result[1]=earnleft;
+		 
+		 
+		 return result;
+		
+	}
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		Scanner scan=new Scanner(System.in);
+	
+		
+		System.out.println("Enter the number of job");
+		int job=scan.nextInt();
+		 
+		int arr[][]=new int[job][3];
+		System.out.println("Enter starttime ,end time and earnings");	
+		
+		for (int i = 0; i < arr.length; i++)
+		{
+			for (int j = 0; j < arr[i].length; j++) 
+			{    int a=Integer.valueOf(scan.next());//if user enter starting with zero to avoid input mismatch exception
+				arr[i][j]=a;
+				
+			}
+		}
+		System.out.println("The number of tasks and earning left for others are");
+		int arr1[]=job1(arr,job);
+		for (int i = 0; i < arr1.length; i++)
+		{
+			
+				System.out.println(arr1[i]);
+			
+			
+		}
+
+	}
+
+}
